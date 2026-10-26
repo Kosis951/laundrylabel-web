@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LaundryLabel</title>
+<style>
+  :root { --blue: #1f73e0; --text: #1c1c1e; --muted: #6e6e73; --bg: #f5f7fb; --card: #fff; }
+  @media (prefers-color-scheme: dark) { :root { --text: #f2f2f7; --muted: #a1a1a6; --bg: #0b0d12; --card: #1c1c1e; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--text); background: var(--bg); }
+  header { background: linear-gradient(120deg, #1f73e0, #21b8e0); color: #fff; text-align: center; padding: 48px 16px 40px; }
+  header img { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+  header h1 { margin: 16px 0 4px; font-size: 34px; }
+  header p { margin: 0; opacity: .9; }
+  nav { text-align: center; margin: 20px 0 0; }
+  nav a { color: var(--blue); margin: 0 10px; text-decoration: none; font-weight: 600; }
+  main { max-width: 760px; margin: 0 auto; padding: 8px 16px 48px; }
+  section { background: var(--card); border-radius: 16px; padding: 24px; margin-top: 24px; }
+  h2 { margin-top: 0; }
+  h3 { margin-bottom: 4px; }
+  .muted { color: var(--muted); font-size: 15px; }
+  a { color: var(--blue); }
+</style>
+</head>
+<body>
+<header>
+  <img src="icon.png" alt="">
+  <h1>LaundryLabel</h1>
+  <p>Zjisti, jak se o oblečení starat. · Find out how to care for your clothes.</p>
+</header>
+<nav><a href="#podpora">Podpora</a><a href="#soukromi">Soukromí</a><a href="#support">Support</a><a href="#privacy">Privacy</a></nav>
+<main>
+
+<section id="podpora">
+  <h2>Podpora</h2>
+  <p>Máš dotaz, našel jsi chybu nebo aplikace špatně přečetla symbol? Napiš mi na <a href="mailto:honzik.kosek@seznam.cz">honzik.kosek@seznam.cz</a>. Odpovím, jak nejrychleji to půjde.</p>
+  <h3>Časté otázky</h3>
+  <p><strong>Aplikace symbol nepoznala nebo ho poznala špatně.</strong><br>Ťukni na symbol ve fotce a oprav ho. Aplikace si opravu zapamatuje a příště to zvládne lépe.</p>
+  <p><strong>Potřebuje aplikace internet?</strong><br>Ne. Rozpoznávání běží přímo v telefonu.</p>
+  <p><strong>Jak smažu, co se aplikace naučila?</strong><br>Na úvodní obrazovce ťukni na ikonu ⓘ a zvol „Zapomenout všechno naučené“.</p>
+</section>
+
+<section id="soukromi">
+  <h2>Zásady ochrany soukromí</h2>
+  <p class="muted">Platné od 25. 10. 2026</p>
+  <p>LaundryLabel neshromažďuje žádné osobní údaje.</p>
+  <ul>
+    <li><strong>Fotky:</strong> fotky štítků a oblečení se zpracují přímo v telefonu a nikam se neodesílají. Aplikace je neukládá mimo zařízení.</li>
+    <li><strong>Fotoaparát a galerie:</strong> přístup slouží jen k pořízení nebo výběru fotky, kterou chceš rozpoznat.</li>
+    <li><strong>Opravy a uložené kusy:</strong> zůstávají jen v tvém telefonu. Kdykoli je smažeš v aplikaci (ⓘ → „Zapomenout všechno naučené“) nebo odstraněním aplikace.</li>
+    <li><strong>Žádné účty, reklamy ani analytika:</strong> aplikace nepoužívá sledování ani nástroje třetích stran a nekomunikuje se žádným serverem.</li>
+  </ul>
+  <p>Pokud se zásady změní, aktualizovaná verze bude na této stránce. Dotazy posílej na <a href="mailto:honzik.kosek@seznam.cz">honzik.kosek@seznam.cz</a>.</p>
+</section>
+
+<section id="support" lang="en">
+  <h2>Support</h2>
+  <p>Have a question, found a bug, or did the app misread a symbol? Email <a href="mailto:honzik.kosek@seznam.cz">honzik.kosek@seznam.cz</a> and I'll get back to you as soon as I can.</p>
+  <h3>FAQ</h3>
+  <p><strong>The app missed a symbol or got it wrong.</strong><br>Tap the symbol in the photo and correct it. The app remembers your correction and does better next time.</p>
+  <p><strong>Does the app need an internet connection?</strong><br>No. Recognition runs entirely on your phone.</p>
+  <p><strong>How do I erase what the app has learned?</strong><br>On the home screen, tap the ⓘ icon and choose "Forget everything learned".</p>
+</section>
+
+<section id="privacy" lang="en">
+  <h2>Privacy Policy</h2>
+  <p class="muted">Effective 25 October 2026</p>
+  <p>LaundryLabel does not collect any personal data.</p>
+  <ul>
+    <li><strong>Photos:</strong> photos of labels and garments are processed on your device and are never uploaded. The app does not store them anywhere off the device.</li>
+    <li><strong>Camera and photo library:</strong> access is used only to take or pick the photo you want analysed.</li>
+    <li><strong>Corrections and saved garments:</strong> stay on your phone only. Delete them any time in the app (ⓘ → "Forget everything learned") or by deleting the app.</li>
+    <li><strong>No accounts, ads or analytics:</strong> the app uses no tracking or third-party services and does not talk to any server.</li>
+  </ul>
+  <p>If this policy changes, the updated version will be posted on this page. Questions: <a href="mailto:honzik.kosek@seznam.cz">honzik.kosek@seznam.cz</a>.</p>
+</section>
+
+</main>
+</body>
+</html>
