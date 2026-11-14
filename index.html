@@ -3,6 +3,201 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LaundryLabel – podpora a soukromí</title>
+<meta name="description" content="LaundryLabel: symboly na štítku vysvětlené, rady i bez štítku. Podpora a zásady ochrany soukromí.">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<style>
+  :root {
+    --deep: #1466bf; --blue: #1f87e6; --teal: #26c7d9;
+    --text: #1c1c1e; --muted: #6e6e73; --bg: #f2f2f7; --card: #fff; --stitch: rgba(31,135,230,.38);
+    --ok: #34c759; --care: #ff9500; --no: #ff3b30;
+    --round: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --text: #f2f2f7; --muted: #a1a1a6; --bg: #000; --card: #1c1c1e; --stitch: rgba(38,199,217,.4); }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--text); background: var(--bg); }
+  a { color: var(--blue); }
+
+  /* hlavička jako v aplikaci: přechod + hladina */
+  header { position: relative; color: #fff; text-align: center; padding: 56px 16px 96px;
+           background: linear-gradient(135deg, var(--deep), var(--blue) 50%, var(--teal)); overflow: hidden; }
+  header .wave { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 60px; display: block; }
+  header .wave path { fill: var(--bg); }
+  header img { width: 104px; height: 104px; border-radius: 24px; border: 2px solid rgba(255,255,255,.6);
+               box-shadow: 0 10px 28px rgba(0,0,0,.25); }
+  header h1 { font-family: var(--round); font-weight: 900; font-size: 44px; letter-spacing: -.5px; margin: 18px 0 4px; }
+  header p { font-family: var(--round); font-weight: 600; margin: 0; opacity: .92; }
+  .symbols { position: absolute; inset: 0; pointer-events: none; opacity: .22; }
+  .symbols svg { position: absolute; width: 64px; height: 64px; stroke: #fff; fill: none; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  @media (max-width: 640px) {
+    .symbols svg { width: 38px; height: 38px; }
+    .symbols svg:nth-child(1) { left: 4% !important; top: 8% !important; }
+    .symbols svg:nth-child(2) { right: 4% !important; top: 8% !important; }
+    .symbols svg:nth-child(n+3) { display: none; }
+    header h1 { font-size: 38px; }
+    .features { grid-template-columns: 1fr; }
+  }
+  nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: -28px auto 0; padding: 0 16px; position: relative; }
+  nav a { font-family: var(--round); font-weight: 700; text-decoration: none; color: #fff; padding: 9px 18px; border-radius: 999px;
+          background: linear-gradient(135deg, var(--deep), var(--blue)); box-shadow: 0 6px 16px rgba(20,102,191,.25); }
+  nav a.lang { background: var(--card); color: var(--blue); }
+
+  main { max-width: 760px; margin: 0 auto; padding: 8px 16px 56px; }
+  .lang-block { margin-top: 36px; }
+  .lang-title { font-family: var(--round); font-weight: 800; font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin: 0 4px 4px; }
+
+  /* prošívaná karta jako štítek */
+  section { position: relative; background: var(--card); border-radius: 24px; padding: 28px 26px; margin-top: 18px;
+            box-shadow: 0 8px 24px rgba(20,102,191,.10); }
+  section::after { content: ""; position: absolute; inset: 6px; border-radius: 18px; border: 1.5px dashed var(--stitch); pointer-events: none; }
+  h2 { font-family: var(--round); font-weight: 800; font-size: 26px; margin: 0 0 12px; display: flex; align-items: center; gap: 12px; }
+  h2 .badge { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; flex: none;
+              background: linear-gradient(135deg, var(--deep), var(--blue) 55%, var(--teal)); }
+  h2 .badge svg { width: 24px; height: 24px; stroke: #fff; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  h3 { font-family: var(--round); font-weight: 800; margin: 22px 0 6px; }
+  .muted { color: var(--muted); font-size: 15px; }
+  ul { padding-left: 0; list-style: none; }
+  li { position: relative; padding-left: 30px; margin: 10px 0; }
+  li::before { content: ""; position: absolute; left: 4px; top: 7px; width: 14px; height: 14px; border-radius: 50%; background: var(--ok);
+               box-shadow: inset 0 0 0 3px var(--card), 0 0 0 1.5px var(--ok); }
+  .faq p { margin: 0 0 14px; }
+  .faq strong { font-family: var(--round); }
+  .features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 8px; }
+  .feature { border-radius: 16px; padding: 14px 16px; background: color-mix(in srgb, var(--blue) 9%, var(--card)); border-left: 4px solid var(--blue); }
+  .feature b { font-family: var(--round); display: block; margin-bottom: 2px; }
+  .feature span { font-size: 15px; color: var(--muted); }
+  .mail { display: inline-block; margin-top: 4px; font-family: var(--round); font-weight: 700; text-decoration: none; color: #fff;
+          padding: 10px 20px; border-radius: 999px; background: linear-gradient(135deg, var(--deep), var(--blue)); }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-family: var(--round); font-weight: 700; font-size: 14px; margin-top: 10px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+  footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 16px 40px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="symbols" aria-hidden="true">
+    <!-- vanička 30 -->
+    <svg viewBox="0 0 64 64" style="left:6%;top:18%;transform:rotate(-10deg)"><path d="M6 18 L14 54 H50 L58 18"/><path d="M8 26 q6 -6 12 0 t12 0 t12 0 t12 0"/><text x="32" y="47" font-size="16" font-weight="800" text-anchor="middle" fill="#fff" stroke="none" font-family="ui-rounded,sans-serif">30</text></svg>
+    <!-- přeškrtnutý trojúhelník -->
+    <svg viewBox="0 0 64 64" style="right:8%;top:14%;transform:rotate(8deg)"><path d="M32 6 L60 56 H4 Z"/><path d="M14 18 L50 52 M50 18 L14 52"/></svg>
+    <!-- žehlička -->
+    <svg viewBox="0 0 64 64" style="left:12%;bottom:30%;transform:rotate(6deg)"><path d="M60 50 H4 Q8 24 26 22 H60 Z"/><path d="M30 22 L34 10 H54 V22"/><circle cx="34" cy="38" r="2.5" fill="#fff"/><circle cx="46" cy="38" r="2.5" fill="#fff"/></svg>
+    <!-- sušička -->
+    <svg viewBox="0 0 64 64" style="right:14%;bottom:30%;transform:rotate(-8deg)"><rect x="6" y="6" width="52" height="52" rx="4"/><circle cx="32" cy="32" r="18"/><circle cx="32" cy="32" r="3" fill="#fff"/></svg>
+  </div>
+  <img src="icon.png" alt="Ikona LaundryLabel">
+  <h1>LaundryLabel</h1>
+  <p>Zjisti, jak se o oblečení starat. · Find out how to care for your clothes.</p>
+  <svg class="wave" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 30 Q100 0 200 30 T400 30 T600 30 T800 30 T1000 30 T1200 30 V60 H0 Z"/>
+  </svg>
+</header>
+
+<nav>
+  <a href="#podpora">Podpora</a><a href="#soukromi">Soukromí</a>
+  <a class="lang" href="#support">Support</a><a class="lang" href="#privacy">Privacy</a>
+</nav>
+
+<main>
+
+<div class="lang-block" lang="cs">
+  <p class="lang-title">Česky</p>
+
+  <section>
+    <h2><span class="badge"><svg viewBox="0 0 24 24"><path d="M3 7h18M7 3v4M17 3v4M5 7l1.5 13h11L19 7"/><path d="M8 12q2-2 4 0t4 0"/></svg></span>Co LaundryLabel umí</h2>
+    <div class="features">
+      <div class="feature"><b>Přečte štítek</b><span>44 symbolů podle ISO 3758 a každý vysvětlí lidsky.</span></div>
+      <div class="feature"><b>Poradí i bez štítku</b><span>Pozná druh oděvu, ty vybereš materiál a dostaneš rady.</span></div>
+      <div class="feature"><b>Učí se od tebe</b><span>Opravíš symbol ve fotce a příště už ho přečte správně.</span></div>
+      <div class="feature"><b>Celé v telefonu</b><span>Funguje offline, bez účtu a bez sběru dat.</span></div>
+    </div>
+    <div class="legend"><span><i style="background:var(--ok)"></i>lze</span><span><i style="background:var(--care)"></i>opatrně</span><span><i style="background:var(--no)"></i>nesmí se</span></div>
+  </section>
+
+  <section id="podpora">
+    <h2><span class="badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14"/><path d="M12 17.5h.01"/></svg></span>Podpora</h2>
+    <p>Máš dotaz, našel jsi chybu nebo aplikace špatně přečetla symbol? Napiš mi, odpovím, jak nejrychleji to půjde.</p>
+    <a class="mail" href="mailto:honzik.kosek@seznam.cz">honzik.kosek@seznam.cz</a>
+    <h3>Časté otázky</h3>
+    <div class="faq">
+      <p><strong>Aplikace symbol nepoznala nebo ho poznala špatně.</strong><br>Ťukni na symbol ve fotce a oprav ho. Aplikace si opravu zapamatuje a příště to zvládne lépe.</p>
+      <p><strong>Oblečení nemá štítek.</strong><br>Na úvodní obrazovce zvol „Vyfotit oděv“. Aplikace odhadne druh oděvu, ty vybereš materiál a dostaneš doporučení.</p>
+      <p><strong>Potřebuje aplikace internet?</strong><br>Ne. Rozpoznávání běží přímo v telefonu.</p>
+      <p><strong>Jak smažu, co se aplikace naučila?</strong><br>Na úvodní obrazovce ťukni na ikonu ⓘ a zvol „Zapomenout všechno naučené“.</p>
+    </div>
+  </section>
+
+  <section id="soukromi">
+    <h2><span class="badge"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></span>Zásady ochrany soukromí</h2>
+    <p class="muted">Platné od 25. 10. 2026</p>
+    <p>LaundryLabel neshromažďuje žádné osobní údaje.</p>
+    <ul>
+      <li><strong>Fotky:</strong> fotky štítků a oblečení se zpracují přímo v telefonu a nikam se neodesílají. Aplikace je neukládá mimo zařízení.</li>
+      <li><strong>Fotoaparát a galerie:</strong> přístup slouží jen k pořízení nebo výběru fotky, kterou chceš rozpoznat.</li>
+      <li><strong>Opravy a uložené kusy:</strong> zůstávají jen v tvém telefonu. Kdykoli je smažeš v aplikaci (ⓘ → „Zapomenout všechno naučené“) nebo odstraněním aplikace.</li>
+      <li><strong>Žádné účty, reklamy ani analytika:</strong> aplikace nepoužívá sledování ani nástroje třetích stran a nekomunikuje se žádným serverem.</li>
+    </ul>
+    <p>Pokud se zásady změní, aktualizovaná verze bude na této stránce. Dotazy posílej na <a href="mailto:honzik.kosek@seznam.cz">honzik.kosek@seznam.cz</a>.</p>
+  </section>
+</div>
+
+<div class="lang-block" lang="en">
+  <p class="lang-title">English</p>
+
+  <section>
+    <h2><span class="badge"><svg viewBox="0 0 24 24"><path d="M3 7h18M7 3v4M17 3v4M5 7l1.5 13h11L19 7"/><path d="M8 12q2-2 4 0t4 0"/></svg></span>What LaundryLabel does</h2>
+    <div class="features">
+      <div class="feature"><b>Reads the label</b><span>44 ISO 3758 symbols, each explained in plain words.</span></div>
+      <div class="feature"><b>Works without a label</b><span>Recognises the garment, you pick the fabric and get advice.</span></div>
+      <div class="feature"><b>Learns from you</b><span>Fix a symbol in the photo and it gets it right next time.</span></div>
+      <div class="feature"><b>All on your phone</b><span>Works offline, no account, no data collected.</span></div>
+    </div>
+    <div class="legend"><span><i style="background:var(--ok)"></i>OK</span><span><i style="background:var(--care)"></i>careful</span><span><i style="background:var(--no)"></i>don't</span></div>
+  </section>
+
+  <section id="support">
+    <h2><span class="badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14"/><path d="M12 17.5h.01"/></svg></span>Support</h2>
+    <p>Have a question, found a bug, or did the app misread a symbol? Email me and I'll get back to you as soon as I can.</p>
+    <a class="mail" href="mailto:honzik.kosek@seznam.cz">honzik.kosek@seznam.cz</a>
+    <h3>FAQ</h3>
+    <div class="faq">
+      <p><strong>The app missed a symbol or got it wrong.</strong><br>Tap the symbol in the photo and correct it. The app remembers your correction and does better next time.</p>
+      <p><strong>My garment has no label.</strong><br>On the home screen choose "Scan a garment". The app guesses the garment type, you pick the fabric and get advice.</p>
+      <p><strong>Does the app need an internet connection?</strong><br>No. Recognition runs entirely on your phone.</p>
+      <p><strong>How do I erase what the app has learned?</strong><br>On the home screen, tap the ⓘ icon and choose "Forget everything learned".</p>
+    </div>
+  </section>
+
+  <section id="privacy">
+    <h2><span class="badge"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></span>Privacy Policy</h2>
+    <p class="muted">Effective 25 October 2026</p>
+    <p>LaundryLabel does not collect any personal data.</p>
+    <ul>
+      <li><strong>Photos:</strong> photos of labels and garments are processed on your device and are never uploaded. The app does not store them anywhere off the device.</li>
+      <li><strong>Camera and photo library:</strong> access is used only to take or pick the photo you want analysed.</li>
+      <li><strong>Corrections and saved garments:</strong> stay on your phone only. Delete them any time in the app (ⓘ → "Forget everything learned") or by deleting the app.</li>
+      <li><strong>No accounts, ads or analytics:</strong> the app uses no tracking or third-party services and does not talk to any server.</li>
+    </ul>
+    <p>If this policy changes, the updated version will be posted on this page. Questions: <a href="mailto:honzik.kosek@seznam.cz">honzik.kosek@seznam.cz</a>.</p>
+  </section>
+</div>
+
+</main>
+
+<footer>LaundryLabel · Jan Košek · 2026</footer>
+</body>
+</html>
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LaundryLabel</title>
 <style>
   :root { --blue: #1f73e0; --text: #1c1c1e; --muted: #6e6e73; --bg: #f5f7fb; --card: #fff; }
